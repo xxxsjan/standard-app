@@ -1,7 +1,8 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
+    es2021: true,
+    node: true
   },
   extends: [
     'eslint:recommended',
@@ -15,5 +16,12 @@ module.exports = {
     parser: '@typescript-eslint/parser' // ts默认有这个
   },
   plugins: ['vue', '@typescript-eslint'],
-  rules: {}
+  rules: {
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto'
+      }
+    ]
+  }
 };
