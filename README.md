@@ -1,16 +1,18 @@
 # Vue 3 + TypeScript + Vite
 
-## 搭建husky eslint prettier commitlint commitizen 规范的项目
+## 搭建 husky eslint prettier commitlint commitizen 规范的项目
 
-### 一、安装eslint
+### 一、安装 eslint
 
 npm i eslint -D
 执行初始化
 npx eslint --init
 按步骤走完
-会生成.eslintrc文件
+![](https://gitee.com/xxxsjan/pic-bed/raw/master/20230328123213.png)
 
-生成的eslintrc配置需要改一下，不然vue文件会报Parsing error: ‘＞‘ expected
+会生成.eslintrc 文件
+
+生成的 eslintrc 配置需要改一下，不然 vue 文件会报 Parsing error: ‘＞‘ expected
 
 修改
 
@@ -29,7 +31,7 @@ npx eslint --init
 },
 ```
 
-### 二、安装prettier
+### 二、安装 prettier
 
 npm i prettier -D
 手动新建 .prettierrc，写点基础配置，如下
@@ -45,23 +47,299 @@ npm i prettier -D
 
 ```
 
-eslint 与prettier结合使用
+eslint 与 prettier 结合使用
 安装依赖
-npm i  eslint-config-prettier eslint-plugin-prettier -D
-配置.eslintrc文件
+npm i eslint-config-prettier eslint-plugin-prettier -D
+配置.eslintrc 文件
 把插件使用上
 
 ```
 module.exports = {
   extends: [
-    "eslint:recommended", 
+    "eslint:recommended",
     "plugin:vue/vue3-essential",
 +    'plugin:prettier/recommended'
   ],
 }
 ```
 
-### 三、安装husky lint-staged  
+### 三、安装 stylelint
+
+#### 安装 14 版本
+
+##### 相关依赖
+
+```
+    "postcss": "8.4.12",
+    "postcss-html": "1.3.0",
+    "stylelint": "14.10.0",
+    "stylelint-config-html": "1.0.0",
+    "stylelint-config-prettier": "9.0.3",
+    "stylelint-config-recommended": "7.0.0",
+    "stylelint-config-recommended-scss": "8.0.0",
+    "stylelint-config-recommended-vue": "1.4.0",
+    "stylelint-config-standard": "25.0.0",
+    "stylelint-config-standard-scss": "4.0.0",
+    "stylelint-order": "6.0.3",
+```
+
+##### 命令
+
+```
+npm i stylelint@14.6.1 stylelint-config-prettier@9.0.3 stylelint-config-recommended-vue@1.4.0 stylelint-config-standard-scss@3.0.0 stylelint-order@5.0.0
+```
+
+##### 配置文件 stylelint.config.js
+
+```javascript
+module.exports = {
+  defaultSeverity: 'error',
+  extends: [
+    'stylelint-config-standard-scss',
+    'stylelint-config-recommended-vue',
+    'stylelint-config-prettier'
+  ],
+  plugins: ['stylelint-order'],
+  rules: {
+    'max-empty-lines': 1,
+    'order/properties-order': [
+      'position',
+      'top',
+      'right',
+      'bottom',
+      'left',
+      'z-index',
+      'display',
+      'justify-content',
+      'align-items',
+      'float',
+      'clear',
+      'overflow',
+      'overflow-x',
+      'overflow-y',
+      'margin',
+      'margin-top',
+      'margin-right',
+      'margin-bottom',
+      'margin-left',
+      'padding',
+      'padding-top',
+      'padding-right',
+      'padding-bottom',
+      'padding-left',
+      'width',
+      'min-width',
+      'max-width',
+      'height',
+      'min-height',
+      'max-height',
+      'font-size',
+      'font-family',
+      'font-weight',
+      'border',
+      'border-style',
+      'border-width',
+      'border-color',
+      'border-top',
+      'border-top-style',
+      'border-top-width',
+      'border-top-color',
+      'border-right',
+      'border-right-style',
+      'border-right-width',
+      'border-right-color',
+      'border-bottom',
+      'border-bottom-style',
+      'border-bottom-width',
+      'border-bottom-color',
+      'border-left',
+      'border-left-style',
+      'border-left-width',
+      'border-left-color',
+      'border-radius',
+      'text-align',
+      'text-justify',
+      'text-indent',
+      'text-overflow',
+      'text-decoration',
+      'white-space',
+      'color',
+      'background',
+      'background-position',
+      'background-repeat',
+      'background-size',
+      'background-color',
+      'background-clip',
+      'opacity',
+      'filter',
+      'list-style',
+      'outline',
+      'visibility',
+      'box-shadow',
+      'text-shadow',
+      'resize',
+      'transition'
+    ]
+  },
+  // 指定需要忽略的文件
+  ignoreFiles: [
+    '**/*.js',
+    '**/*.jsx',
+    '**/*.ts',
+    '**/*.tsx',
+    '**/*.png',
+    '**/*.ttf',
+    '**/*.woff',
+    '**/*.json',
+    '**/*.md',
+    '**/*.html'
+  ]
+};
+```
+
+##### 文件忽略校验方法
+
+```javascript
+// 忽略整個檔案
+/* stylelint-disable */
+
+// 忽略下一行
+/* stylelint-disable-next-line */
+```
+
+package.json 命令
+
+stylelint-check 命令中的 stylelint-config-prettier-check 为 stylelint-config-prettier 附带一个小 CLI 工具，可帮助您检查您的配置是否包含任何与 Prettier 冲突的规则。
+
+```json
+{
+  "scripts": {
+    "lint:style": "stylelint \"**/*.{css,scss,vue}\"",
+    "fix:style": "stylelint \"**/*.{css,scss,vue}\" --fix",
+    "stylelint:check": "stylelint-config-prettier-check"
+  }
+}
+```
+
+#### 安装 15 版本（会警告）
+
+装 15 的话会警告，因为移除了很多规则
+会报很多规则启用的警告
+
+![](https://raw.githubusercontent.com/xxxsjan/pic-bed/main/202303311803564.png)
+
+##### 相关依赖
+
+```json
+{
+  "postcss": "^8.4.21",
+  "postcss-html": "^1.5.0",
+  "stylelint": "^15.3.0",
+  "stylelint-config-html": "^1.1.0",
+  "stylelint-config-prettier": "9.0.3",
+  "stylelint-config-recommended": "^11.0.0",
+  "stylelint-config-recommended-scss": "^9.0.1",
+  "stylelint-config-recommended-vue": "1.4.0",
+  "stylelint-config-standard": "^31.0.0",
+  "stylelint-config-standard-scss": "7.0.1",
+  "stylelint-order": "^6.0.3"
+}
+```
+
+##### 配置文件 stylelint.config.js
+
+```javascript
+extends: [
+    'stylelint-config-standard',
+    'stylelint-config-prettier',
+    'stylelint-config-html/vue',
+    'stylelint-config-recommended-vue/scss',
+    'stylelint-config-recommended-scss'
+],
+plugins: ['stylelint-order'],
+rules: {
+    'order/properties-order': [
+      'position',
+      'top',
+      'right',
+      'bottom',
+      'left',
+      'z-index',
+      'display',
+      'justify-content',
+      'align-items',
+      'float',
+      'clear',
+      'overflow',
+      'overflow-x',
+      'overflow-y',
+      'margin',
+      'margin-top',
+      'margin-right',
+      'margin-bottom',
+      'margin-left',
+      'padding',
+      'padding-top',
+      'padding-right',
+      'padding-bottom',
+      'padding-left',
+      'width',
+      'min-width',
+      'max-width',
+      'height',
+      'min-height',
+      'max-height',
+      'font-size',
+      'font-family',
+      'font-weight',
+      'border',
+      'border-style',
+      'border-width',
+      'border-color',
+      'border-top',
+      'border-top-style',
+      'border-top-width',
+      'border-top-color',
+      'border-right',
+      'border-right-style',
+      'border-right-width',
+      'border-right-color',
+      'border-bottom',
+      'border-bottom-style',
+      'border-bottom-width',
+      'border-bottom-color',
+      'border-left',
+      'border-left-style',
+      'border-left-width',
+      'border-left-color',
+      'border-radius',
+      'text-align',
+      'text-justify',
+      'text-indent',
+      'text-overflow',
+      'text-decoration',
+      'white-space',
+      'color',
+      'background',
+      'background-position',
+      'background-repeat',
+      'background-size',
+      'background-color',
+      'background-clip',
+      'opacity',
+      'filter',
+      'list-style',
+      'outline',
+      'visibility',
+      'box-shadow',
+      'text-shadow',
+      'resize',
+      'transition'
+    ]
+  },
+```
+
+### 三、安装 husky lint-staged
 
 husky----------操作 git 钩子的工具
 lint-staged----本地暂存代码检查工具
@@ -69,13 +347,13 @@ lint-staged----本地暂存代码检查工具
 npm i lint-staged husky -D
 
 设置脚本：npm set-script prepare "husky install"
-会在packages.json追加一条script
- "prepare":"husky install"
+会在 packages.json 追加一条 script
+"prepare":"husky install"
 
 启动脚本：npm run prepare
-会生成.husky目录
+会生成.husky 目录
 
-添加git钩子命令
+添加 git 钩子命令
 npx husky add .husky/pre-commit "npx lint-staged"
 
 创建.lintstagedrc.json
@@ -84,36 +362,42 @@ npx husky add .husky/pre-commit "npx lint-staged"
 {
   "*.{js,jsx,ts,tsx,vue}": "eslint --ext .vue,.js,.ts src/"
 }
+或者
+{
+  "*.{vue,js,ts,jsx,tsx,css,sass,scss,json,md}": ["prettier --write"],
+  "*.{vue,css,sass,scss}": ["stylelint --fix"],
+  "*.{vue,js,jsx,ts,jsx,tsx}": ["eslint --fix"]
+}
 
 ```
 
-### 四、安装Commitlint
+### 四、安装 Commitlint
 
-Commitlint：用于校验填写的commit message是否符合设定的规范
+Commitlint：用于校验填写的 commit message 是否符合设定的规范
 
 npm i commitlint @commitlint/config-conventional -D
 
-添加husky钩子
+添加 husky 钩子
 npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
 
-### 五、安装commitizen
+### 五、安装 commitizen
 
-Commitizen：是一个命令行提示工具，它主要用于帮助我们更快地写出规范的commit message
+Commitizen：是一个命令行提示工具，它主要用于帮助我们更快地写出规范的 commit message
 
-npm i commitizen  -g   全局安装
+npm i commitizen -g 全局安装
 
-可选：使用cz-conventional-changelog规则
+可选：使用 cz-conventional-changelog 规则
 npm i cz-conventional-changelog -D
 再执行
 
 ```
 npx commitizen init cz-conventional-changelog --save-dev --save-exact
-# npm commitizen init cz-conventional-changelog --save-dev --save-exact 
-# yarn commitizen init cz-conventional-changelog --yarn --dev --exact 
+# npm commitizen init cz-conventional-changelog --save-dev --save-exact
+# yarn commitizen init cz-conventional-changelog --yarn --dev --exact
 # pnpm commitizen init cz-conventional-changelog --pnpm --save-dev --save-exact
 ```
 
-上面的命令会在package里添加
+上面的命令会在 package 里添加
 
 ```
  "config": {
@@ -127,7 +411,7 @@ npx commitizen init cz-conventional-changelog --save-dev --save-exact
 
 npm i -D commitlint-config-cz cz-customizable
 
-把package.json里的commitizen配置改成使用cz-customizable
+把 package.json 里的 commitizen 配置改成使用 cz-customizable
 
 ```
 "config": {
@@ -137,11 +421,11 @@ npm i -D commitlint-config-cz cz-customizable
  }
 ```
 
-新建commitlint.config.js文件
+新建 commitlint.config.js 文件
 
 ```
 module.exports = {
-  // 使用 .cz.config.js里的规则 
+  // 使用 .cz.config.js里的规则
   extends: ['cz'],
   rules: {
     // 自定义
@@ -201,4 +485,4 @@ module.exports = {
 
 ```
 
-最后使用git cz命令即可有提示的提交代码
+最后使用 git cz 命令即可有提示的提交代码
