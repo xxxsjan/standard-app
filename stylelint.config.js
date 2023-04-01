@@ -6,13 +6,12 @@ module.exports = {
   //   'stylelint-config-recommended-vue',
   //   'stylelint-config-prettier'
   // ],
-  // plugins: ['stylelint-order'],
   extends: [
     'stylelint-config-standard',
     'stylelint-config-prettier',
     'stylelint-config-html/vue',
-    'stylelint-config-recommended-vue/scss',
-    'stylelint-config-recommended-scss'
+    'stylelint-config-recommended-scss',
+    'stylelint-config-recommended-vue/scss'
   ],
   plugins: ['stylelint-order'],
   rules: {
@@ -96,7 +95,6 @@ module.exports = {
       'transition'
     ]
   },
-  // 指定需要忽略的文件
   ignoreFiles: [
     '**/*.js',
     '**/*.vue',
@@ -112,11 +110,3 @@ module.exports = {
     '**/*.svg'
   ]
 };
-
-// 文件忽略校验方法：
-
-// 忽略整個檔案
-/* stylelint-disable */
-
-// 忽略下一行
-/* stylelint-disable-next-line */

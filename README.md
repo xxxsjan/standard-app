@@ -70,7 +70,7 @@ module.exports = {
 ##### 相关依赖
 
 ```
-    "postcss": "8.4.12",
+	"postcss": "8.4.19",
     "postcss-html": "1.3.0",
     "stylelint": "14.10.0",
     "stylelint-config-html": "1.0.0",
@@ -86,18 +86,22 @@ module.exports = {
 ##### 命令
 
 ```
-npm i stylelint@14.6.1 stylelint-config-prettier@9.0.3 stylelint-config-recommended-vue@1.4.0 stylelint-config-standard-scss@3.0.0 stylelint-order@5.0.0
+pnpm add postcss@8.4.19 postcss-html@1.3.0 stylelint@14.10.0 stylelint-config-html@1.0.0 stylelint-config-prettier@9.0.3 stylelint-config-recommended@7.0.0 stylelint-config-recommended-scss@8.0.0 stylelint-config-recommended-vue@1.4.0 stylelint-config-standard@25.0.0 stylelint-config-standard-scss@4.0.0 stylelint-order@6.0.3 -D
 ```
 
 ##### 配置文件 stylelint.config.js
+
+extends 的顺序有讲究的
 
 ```javascript
 module.exports = {
   defaultSeverity: 'error',
   extends: [
-    'stylelint-config-standard-scss',
-    'stylelint-config-recommended-vue',
-    'stylelint-config-prettier'
+    'stylelint-config-standard',
+    'stylelint-config-prettier',
+    'stylelint-config-html/vue',
+    'stylelint-config-recommended-scss',
+    'stylelint-config-recommended-vue/scss'
   ],
   plugins: ['stylelint-order'],
   rules: {
@@ -207,15 +211,15 @@ module.exports = {
 /* stylelint-disable-next-line */
 ```
 
-package.json 命令
+##### package.json 命令
 
 stylelint-check 命令中的 stylelint-config-prettier-check 为 stylelint-config-prettier 附带一个小 CLI 工具，可帮助您检查您的配置是否包含任何与 Prettier 冲突的规则。
 
 ```json
 {
   "scripts": {
-    "lint:style": "stylelint \"**/*.{css,scss,vue}\"",
-    "fix:style": "stylelint \"**/*.{css,scss,vue}\" --fix",
+    "lint:style": "stylelint \"src/**/*.{css,scss,vue}\"",
+    "fix:style": "stylelint \"src/**/*.{css,scss,vue}\" --fix",
     "stylelint:check": "stylelint-config-prettier-check"
   }
 }
@@ -253,8 +257,8 @@ extends: [
     'stylelint-config-standard',
     'stylelint-config-prettier',
     'stylelint-config-html/vue',
-    'stylelint-config-recommended-vue/scss',
-    'stylelint-config-recommended-scss'
+    'stylelint-config-recommended-scss',
+    'stylelint-config-recommended-vue/scss'
 ],
 plugins: ['stylelint-order'],
 rules: {
