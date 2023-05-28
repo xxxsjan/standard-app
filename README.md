@@ -12,23 +12,58 @@ npx eslint --init
 
 会生成.eslintrc 文件
 
-生成的 eslintrc 配置需要改一下，不然 vue 文件会报 Parsing error: ‘＞‘ expected
+#### 报错相关
 
-修改
+##### module is not defined
+
+![](https://raw.githubusercontent.com/xxxsjan/pic-bed/main/202304030055503.png)
+
+##### 自动引入后报错：api 未定义
+
+![](https://raw.githubusercontent.com/xxxsjan/pic-bed/main/202304030134389.png)
+
+```
+ extends: [
+    'eslint:recommended',
+    'plugin:vue/vue3-essential',
+    'prettier',
+    '.eslintrc-auto-import.json'
+  ],
+```
+
+##### vue 文件会报 Parsing error: ‘＞‘ expected
 
 ```
 // before
-// parser: '@typescript-eslint/parser',
-// parserOptions: {
-//   ecmaVersion: 'latest',
-//   sourceType: 'module'
-// },
+parser: '@typescript-eslint/parser',
+ parserOptions: {
+ ecmaVersion: 'latest',
+ sourceType: 'module'
+},
 
 // now
 "parser": "vue-eslint-parser",
   "parserOptions":{
   "parser":"@typescript-eslint/parser",
 },
+```
+
+##### Parsing error: Unexpected token !
+
+识别不了 ts 断言
+
+pnpm add typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser -D
+
+```js
+parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
++    parser: '@typescript-eslint/parser'
+  },
+plugins: [
+ 'vue',
++ '@typescript-eslint'
+],
 ```
 
 ### 二、安装 prettier
